@@ -64,6 +64,15 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+        'applicants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Applicant::class,
+        ],
+
+        'companies' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Company::class,
+    ],
 
         // 'users' => [
         //     'driver' => 'database',
