@@ -64,7 +64,7 @@ class CompanyController extends Controller
 
     public function login(Request $request) { 
         $validRequest = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -94,23 +94,32 @@ class CompanyController extends Controller
     }
     public function index()
     {
-        //
+    $companies = company::orderBy('name', 'asc')->paginate(10);
+    $companies->makeHidden(['password']);
+
+    return response()->json([
+        $companies
+    ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $company = company::find($id);
+        $company->makeHidden(['password']);
+        
+        if (!$company) {
+            return response()->json([
+                'message' => 'Company not found'
+            ] , 404);
+        }
+
+        return response()->json([
+            $company
+        ] , 200);
     }
 
     /**
@@ -118,7 +127,49 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $company = company::find($id);
+        if (!$company) {
+            return response()->json([
+                'message' => 'Company not found'
+            ] , 404);
+        }
+        if ($company->id != $id) {
+            return response()->json([
+                'message' => 'Unauthorized Actions'
+            ] , 401);
+        }
+
+        $validRequest = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:companies',
+            'password' => 'nullable|confirmed',
+            'address' => 'nullable||string',
+            'country' => 'nullable|string',
+            'phone' => 'nullable', 
+            'website' => 'nullable|string',
+            'logo' => 'nullable',
+        ]);
+        
+        if ($validRequest->fails()) {
+            return response([
+                'message' => 'string',
+                'errors' =>
+                [
+                    'name' => '[string]',
+                    'email' => '[string]',
+                    'password' => '[string]',
+                    'address' => '[string]',
+                    'country' => '[string]',
+                    'phone' => '[number]',
+                    'website' => '[string]',
+                    'logo' => '[file]',
+                ]
+            ], 422);
+        }
+
+        $company->update($request->only([
+            'name' , 'email' , 'password' 
+        ]));
     }
 
     /**
