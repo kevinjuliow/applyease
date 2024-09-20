@@ -16,9 +16,10 @@ class CompanyController extends Controller
 
     public function register(Request $request)
     {
+
         $validRequest = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:companies',
             'password' => 'required|confirmed',
             'address' => 'required',
             'country' => 'required',
@@ -33,7 +34,7 @@ class CompanyController extends Controller
                     'name' => '[string]',
                     'email' => '[string]',
                     'password' => '[string]',
-                    'password_confirmation' => '[`string`]', 
+                    'password_confirmation' => '[string]',
                     'address' => '[string]',
                     'country' => '[string]',
                     'phone' => '[number]',
@@ -41,14 +42,15 @@ class CompanyController extends Controller
             ], 422);
         }
 
+        
         $company = new company(); 
         $company->name = $request->name ; 
         $company->email = $request->email ; 
         $company->password = $request->password ; 
-        $company->password = Hash::make($request->passowrd);
+        $company->password = Hash::make($request->password);
         $company->address = $request->address ; 
         $company->country = $request->country ; 
-        $company->phone = $request->oohone ; 
+        $company->phone = $request->phone ; 
 
         $company->save() ; 
 
@@ -62,12 +64,8 @@ class CompanyController extends Controller
 
     public function login(Request $request) { 
         $validRequest = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
-            'address' => 'required',
-            'country' => 'required',
-            'phone' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
         if ($validRequest->fails()) {
@@ -75,13 +73,8 @@ class CompanyController extends Controller
                 'message' => 'string',
                 'errors' =>
                 [
-                    'name' => '[string]',
                     'email' => '[string]',
                     'password' => '[string]',
-                    'password_confirmation' => '[`string`]', 
-                    'address' => '[string]',
-                    'country' => '[string]',
-                    'phone' => '[number]',
                 ]
             ], 422);
         }
