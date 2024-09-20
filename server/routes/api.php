@@ -15,6 +15,12 @@ Route::get('/', function (Request $request) {
 
 
 Route::post("/users/register/company", [CompanyController::class, 'register']);
+Route::post("/users/login/company" , [CompanyController::class , 'login']);
+
+Route::get("/companies"  ,[CompanyController::class , 'index']); 
+Route::get("/companies/{id}"  ,[CompanyController::class , 'show']); 
+
+
 
 
 Route::post("/users/register/applicant",[ApplicantController::class,'register']);
