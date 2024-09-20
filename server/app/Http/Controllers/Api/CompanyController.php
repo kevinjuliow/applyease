@@ -64,7 +64,7 @@ class CompanyController extends Controller
 
     public function login(Request $request) { 
         $validRequest = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
@@ -96,13 +96,15 @@ class CompanyController extends Controller
     {
     $companies = company::orderBy('name', 'asc')->paginate(10);
     $companies->makeHidden(['password']);
-
+        
     return response()->json([
         $companies
     ], 200);
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     */
     /**
      * Display the specified resource.
      */
