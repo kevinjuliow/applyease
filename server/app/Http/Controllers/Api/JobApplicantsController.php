@@ -43,6 +43,7 @@ class JobApplicantsController extends Controller
         $jobApplicant = new job_applicants();
         $jobApplicant->applicant_id = $user->id;
         $jobApplicant->job_id = $job->id;
+        $jobApplicant->company_id = $job->company_id;
         $jobApplicant->save();
 
         return response()->json([
@@ -60,12 +61,11 @@ class JobApplicantsController extends Controller
             ], 403);
         }
 
-
-        $jobs = job_applicants::find($user->id, 'job_id');
-
-        // Return jobs with a 200 status code
+        $jobs = job_applicants::where('company_id' , $user->id)->get();
+   
         return response()->json([
             'jobs' => $jobs
         ], 200);
+
     }
 }
