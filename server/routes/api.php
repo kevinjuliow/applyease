@@ -48,7 +48,10 @@ Route::put("/jobs/{id}"  ,[JobController::class , 'update'])->middleware("auth:s
 Route::delete("/jobs/{id}"  ,[JobController::class , 'destroy'])->middleware("auth:sanctum"); 
 
 
-
-
-
-
+/**
+* Applicant Routes
+*/
+Route::get("/applicants"  ,[ApplicantController::class , 'index']); 
+Route::get("/applicants/{id}"  ,[ApplicantController::class , 'show']); 
+Route::put("/applicants/{id}"  ,[ApplicantController::class , 'update'])->middleware("auth:sanctum");
+Route::delete("/applicants/{id}"  ,[ApplicantController::class , 'destroy'])->middleware("auth:sanctum");

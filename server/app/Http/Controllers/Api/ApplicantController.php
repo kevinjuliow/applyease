@@ -92,15 +92,12 @@ class ApplicantController extends Controller
 
     public function index()
     {
-        //
-    }
+        $applicants = Applicant::orderBy('full_name', 'asc')->paginate(10);
+        $applicants->makeHidden(['password']);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json([
+            $applicants
+        ], 200);
     }
 
     /**
@@ -108,7 +105,20 @@ class ApplicantController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $applicants = Applicant::find($id);
+
+        if (!$applicants) {
+            return response()->json([
+                'message' => 'Applicant not found'
+            ], 404);
+        }
+
+        $applicants->makeHidden(['password']);
+
+
+        return response()->json([
+            $applicants
+        ], 200);
     }
 
     /**
@@ -116,14 +126,81 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $applicant = Applicant::find($id);
+        $user = $request->user();
+
+        if (!$applicant) {
+            return response()->json([
+                'message' => 'Applicant not found'
+            ], 404);
+        }
+        if ($id != $user->id) {
+            return response()->json([
+                'message' => 'Unauthorized Actions'
+            ], 401);
+        }
+
+        $validRequest = Validator::make($request->all(), [
+            "full_name" => "nullable",
+            "email" => "nullable|email|unique:applicants",
+            "password" => "nullable|confirmed",
+            "birth_date" => "nullable",
+            "phone" => "nullable",
+            "address" => "nullable|string",
+            "cv" => "nullable|string",
+
+        ]);
+        if ($validRequest->fails()) {
+            return response([
+                'error' => $request->full_name,
+                "message" => "string",
+                "errors" =>
+                [
+                    "full_name" => "[string]",
+                    "email" => "[string]",
+                    "password" => "[string]",
+                    "password_confirmation" => "[string]",
+                    "birth_date" => "[date]",
+                    "phone" => "[number]",
+                    "address" => "[string]",
+                    "cv" => "[file]"
+                ]
+            ], 422);
+        }
+
+        $applicant->update($request->only([
+            'full_name',
+            'email',
+            'password'
+        ]));
+        
+        return response()->json([
+            'message' => 'User Updated'
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        $applicant = Applicant::find($id);
+
+        $user = $request->user();
+
+        if ($applicant->id != $user->id) {
+            return response()->json([
+                'user'=>$user->id,
+                'applicants'=>$applicant->id,
+                'message' => 'This act is forbidden'
+            ], 403);
+        } else {
+
+            $applicant->delete();
+
+            return response()->json([
+                'message' => 'User Deleted'
+            ], 200);
+        }
     }
 }
