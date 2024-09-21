@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\company;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -43,7 +43,7 @@ class CompanyController extends Controller
         }
 
         
-        $company = new company(); 
+        $company = new Company(); 
         $company->name = $request->name ; 
         $company->email = $request->email ; 
         $company->password = $request->password ; 
@@ -79,7 +79,7 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        $company = company::where('email' , $request->email)->first();
+        $company = Company::where('email' , $request->email)->first();
 
         if (!$company || !Hash::check($request->password, $company->password)){
             return response()->json(['message' => 'invalid credentials.'] , 401);
@@ -94,7 +94,7 @@ class CompanyController extends Controller
     }
     public function index()
     {
-    $companies = company::orderBy('name', 'asc')->paginate(10);
+    $companies = Company::orderBy('name', 'asc')->paginate(10);
     $companies->makeHidden(['password']);
         
     return response()->json([
@@ -110,15 +110,16 @@ class CompanyController extends Controller
      */
     public function show(string $id)
     {
-        $company = company::find($id);
-        $company->makeHidden(['password']);
-        
+        $company = Company::find($id);
+
         if (!$company) {
             return response()->json([
                 'message' => 'Company not found'
             ] , 404);
         }
-
+        
+        $company->makeHidden(['password']);
+        
         return response()->json([
             $company
         ] , 200);
@@ -129,28 +130,31 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $company = company::find($id);
+        $company = Company::find($id);
+        $user = $request->user();
+
         if (!$company) {
             return response()->json([
                 'message' => 'Company not found'
             ] , 404);
         }
-        if ($company->id != $id) {
-            return response()->json([
-                'message' => 'Unauthorized Actions'
-            ] , 401);
-        }
+        if ($company->id != $user->id || !$user->tokenCan('authToken')){
+           return response()->json([
+               'message' => 'this action is forbidden'
+           ] , 403);
+       }
 
         $validRequest = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:companies',
+            'name' => 'nullable|string',
+            'email' => 'nullable|email|unique:companies,email,'.$company->id,
             'password' => 'nullable|confirmed',
-            'address' => 'nullable||string',
+            'address' => 'nullable|string',
             'country' => 'nullable|string',
-            'phone' => 'nullable', 
+            'phone' => 'nullable',
             'website' => 'nullable|string',
-            'logo' => 'nullable',
+            'logo' => 'nullable|file',
         ]);
+    
         
         if ($validRequest->fails()) {
             return response([
@@ -170,15 +174,35 @@ class CompanyController extends Controller
         }
 
         $company->update($request->only([
-            'name' , 'email' , 'password' 
+           'name', 'email', 'password', 'address', 'country', 'phone', 'website', 'logo'
         ]));
+
+        return response()->json([
+            'message' => 'Company updated successfully',
+            'company' => $company
+        ], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request , string $id)
     {
-        //
+        $company = Company::find($id);
+        $user = $request->user();
+
+        if ($company->id != $user->id || !$user->tokenCan('authToken')){
+            return response()->json([
+                'message' => 'this action is forbidden'
+            ] , 403);
+        }
+
+        $company->delete();
+
+        return response()->json([
+            'message' => 'Company deleted' , 
+            'company' => $company
+        ], 200);
     }
 }
