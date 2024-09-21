@@ -94,7 +94,6 @@ class ApplicantController extends Controller
     {
         $applicants = Applicant::orderBy('full_name', 'asc')->paginate(10);
         $applicants->makeHidden(['password']);
-
         return response()->json([
             $applicants
         ], 200);
@@ -134,7 +133,7 @@ class ApplicantController extends Controller
                 'message' => 'Applicant not found'
             ], 404);
         }
-        if ($id != $user->id) {
+        if ($id != $user->id || !$user->tokenCan('authToken2')) {
             return response()->json([
                 'message' => 'Unauthorized Actions'
             ], 401);
@@ -173,7 +172,7 @@ class ApplicantController extends Controller
             'email',
             'password'
         ]));
-        
+
         return response()->json([
             'message' => 'User Updated'
         ], 200);
@@ -188,10 +187,10 @@ class ApplicantController extends Controller
 
         $user = $request->user();
 
-        if ($applicant->id != $user->id) {
+        if ($applicant->id != $user->id || !$user->tokenCan('authToken2')) {
             return response()->json([
-                'user'=>$user->id,
-                'applicants'=>$applicant->id,
+                'user' => $user->id,
+                'applicants' => $applicant->id,
                 'message' => 'This act is forbidden'
             ], 403);
         } else {
