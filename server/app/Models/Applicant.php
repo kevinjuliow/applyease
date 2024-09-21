@@ -20,4 +20,9 @@ class Applicant extends Model
         'phone',
         'cv'
     ];
+
+    public function jobs()
+    {
+        return $this->belongsToMany(Job::class, 'job_applicants');
+    }
 }
