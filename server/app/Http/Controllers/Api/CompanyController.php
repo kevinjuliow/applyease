@@ -54,6 +54,7 @@ class CompanyController extends Controller
 
         $company->save() ; 
 
+        $company->makeHidden(['password']);
 
         return response()->json([
             'message' => 'Company Created',

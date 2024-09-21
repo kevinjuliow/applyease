@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApplicantController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\JobApplicantsController;
 use App\Http\Controllers\Api\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,12 @@ Route::get("/applicants"  ,[ApplicantController::class , 'index']);
 Route::get("/applicants/{id}"  ,[ApplicantController::class , 'show']); 
 Route::put("/applicants/{id}"  ,[ApplicantController::class , 'update'])->middleware("auth:sanctum");
 Route::delete("/applicants/{id}"  ,[ApplicantController::class , 'destroy'])->middleware("auth:sanctum");
+
+
+/**
+ * Job Applicants Routes
+ */
+Route::post('/apply/{id}' , [JobApplicantsController::class , 'apply'])->middleware("auth:sanctum"); 
+Route::get('/apply' , [JobApplicantsController::class , 'index'])->middleware("auth:sanctum"); 
+
+
