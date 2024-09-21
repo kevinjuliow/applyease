@@ -52,6 +52,8 @@ class ApplicantController extends Controller
 
         $applicant->save();
 
+        $applicant->makeHidden(['password']);
+
         return response()->json([
             'message' => 'Applicant Created',
             'applicant' => $applicant
