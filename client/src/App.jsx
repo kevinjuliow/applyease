@@ -1,33 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Navbar from './assets/components/navbar/Navbar'
+import Login from './assets/pages/authentication/login/Login'
+import RegisterRole from './assets/pages/authentication/register/RegisterRole'
+import Landing from './assets/pages/landing/Landing'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import NotFoundPage from './assets/pages/notfound/NotFoundPage'
+import CompanyRegister from './assets/pages/authentication/register/CompanyRegister'
+import ApplicantRegister from './assets/pages/authentication/register/ApplicantRegister'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path={"/"} element={ <Landing /> } />
+          <Route path={"/register-role"} element={ <RegisterRole /> } />
+          <Route path={"/login"} element={ <Login /> } />
+          <Route path={"/register/company"} element={ <CompanyRegister /> } />
+          <Route path={"/register/applicant"} element={ <ApplicantRegister /> } />
+
+          {/* Not Found Page */}
+          <Route path="/notfound" element={<NotFoundPage />} />
+          <Route path="*" element={<Navigate to="/notfound" replace />} /> 
+        </Routes>
+      </Router>
     </>
   )
 }

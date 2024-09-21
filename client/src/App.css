@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,42 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+.custom-hover-button {
+  /* box-shadow: 3px 3px rgba(255, 255, 255, .75); */
+  transition: .3s;
+}
+
+.custom-hover-button:hover {
+  box-shadow: 3px 3px rgba(0, 0, 0, .75);
+  transform: translate(-2px, -2px);
+}
+
+.custom-button {
+  box-shadow: 3px 3px rgba(255, 255, 255, .75);
+}
+
+.custom-hover-box {
+  /* box-shadow: 3px 3px rgba(255, 255, 255, .75); */
+  transition: .3s;
+}
+
+.custom-hover-box:hover {
+  box-shadow: 3px 3px rgba(0, 0, 0, .75);
+  transform: translate(-4px, -4px);
+}
+
+@keyframes upAndDown {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(16px);
+  }
+}
+
+.jumping-animation {
+  width: 300px;
+  animation: upAndDown 3s linear infinite;
 }
