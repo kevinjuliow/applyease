@@ -11,10 +11,10 @@ const Welcome = () => {
       <SparklesCore
           id="tsparticlesfullpage"
           background="transparent"
-          minSize={1.4}
-          maxSize={3}
+          minSize={0.5}
+          maxSize={2}
           particleDensity={100}
-          className="h-96 absolute z-0 w-96"
+          className="h-96 absolute z-0 w-full"
           particleColor="#a855f7"
         />
 
