@@ -7,23 +7,42 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import NotFoundPage from './assets/pages/notfound/NotFoundPage'
 import CompanyRegister from './assets/pages/authentication/register/CompanyRegister'
 import ApplicantRegister from './assets/pages/authentication/register/ApplicantRegister'
+import AuthenticatedMiddleware from './assets/lib/AuthenticatedMiddleware'
 
 function App() {
+  const protectedRoutes = [
+    { path: "/register-role", element: <RegisterRole /> },
+    { path: "/login", element: <Login /> },
+    { path: "/register/company", element: <CompanyRegister /> },
+    { path: "/register/applicant", element: <ApplicantRegister /> },
+  ];
+
   return (
     <>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path={"/"} element={ <Landing /> } />
-          <Route path={"/register-role"} element={ <RegisterRole /> } />
-          <Route path={"/login"} element={ <Login /> } />
-          <Route path={"/register/company"} element={ <CompanyRegister /> } />
-          <Route path={"/register/applicant"} element={ <ApplicantRegister /> } />
+        <AuthenticatedMiddleware>
+          <Navbar />
+          <Routes>
+            <Route path={"/"} element={ <Landing /> } />
 
-          {/* Not Found Page */}
-          <Route path="/notfound" element={<NotFoundPage />} />
-          <Route path="*" element={<Navigate to="/notfound" replace />} /> 
-        </Routes>
+            {/* Dynamic routes for each route */}
+            {protectedRoutes.map(({ path, element }) => (
+              <Route 
+                key={path} 
+                path={path} 
+                element={
+                  <AuthenticatedMiddleware>
+                    {element}
+                  </AuthenticatedMiddleware>
+                } 
+              />
+            ))}
+
+            {/* Not Found Page */}
+            <Route path="/notfound" element={<NotFoundPage />} />
+            <Route path="*" element={<Navigate to="/notfound" replace />} /> 
+          </Routes>
+        </AuthenticatedMiddleware>
       </Router>
     </>
   )

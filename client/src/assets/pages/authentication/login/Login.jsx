@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const YupSigninSchema = yup.object().shape({
   email: yup.string().email("Email format must be valid").required("Email is required"),
@@ -17,20 +19,28 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const navigate = useNavigate();
 
   const handleForm = handleSubmit(async (values) => {
-    setLoading(true); 
+    console.log('SUBMITTED')
+    setLoading(true);
     try {
-      const response = null; // Simulate API response
+      const response = await axios.post(`${import.meta.env.VITE_API_ROUTE}/api/users/login/applicant`, { // login for applicant only
+        email: values.email,
+        password: values.password
+      })
 
+      console.log(response.data);
       if (response?.error) {
         throw new Error(response?.error);
       }
+      localStorage.setItem('userToken', response.data.token)
+      navigate('/dashboard')
 
     } catch (error) {
       setError(error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   });
 

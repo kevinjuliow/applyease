@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const YupSigninSchema = yup.object().shape({
   name: yup.string().required("Company name is required"),
@@ -24,12 +24,13 @@ const CompanyRegister = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const navigate = useNavigate();
 
   const handleForm = handleSubmit(async (values) => {
     console.log('SUBMITTED')
     setLoading(true);
     try {
-      const response = await axios.post('https://9dh77mbn-8000.asse.devtunnels.ms/api/users/register/company', {
+      const response = await axios.post(`${import.meta.env.VITE_API_ROUTE}/api/users/register/company`, {
         name: values.name,
         email: values.email,
         password: values.password,
@@ -43,7 +44,7 @@ const CompanyRegister = () => {
       if (response?.error) {
         throw new Error(response?.error);
       }
-      Navigate('/dashboard')
+      navigate('/dashboard')
 
     } catch (error) {
       setError(error);
