@@ -19,7 +19,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'email' => $this->faker->unique()->company(),
+            'email' => $this->faker->unique()->companyEmail(),
             'password' => Hash::make('test') , 
             'address' => $this->faker->address() , 
             'country' => $this->faker->country() , 
