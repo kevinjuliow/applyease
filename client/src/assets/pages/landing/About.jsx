@@ -8,7 +8,7 @@ const About = () => {
     <>
     <div className="h-auto flex flex-col items-center justify-center absolute bottom-0 mb-5 bg-transparent">
       <div className="flex justify-between items-start">
-        <div className="flex flex-col items-center justify-center w-[140px] mx-6 hover:-translate-y-2 ease-in-out duration-400">
+        <div className="flex flex-col items-center justify-center w-[140px] mx-6 hover:-translate-y-4 ease-in-out duration-300">
           <div className="border-4 border-purple-700 rounded-full p-5 bg-white">
             <img src={search} alt="" className="w-10" />
           </div>
