@@ -8,6 +8,7 @@ import NotFoundPage from './assets/pages/notfound/NotFoundPage'
 import CompanyRegister from './assets/pages/authentication/register/CompanyRegister'
 import ApplicantRegister from './assets/pages/authentication/register/ApplicantRegister'
 import AuthenticatedMiddleware from './assets/lib/AuthenticatedMiddleware'
+import Dashboard from './assets/pages/dashboard/Dashboard'
 
 function App() {
   const protectedRoutes = [
@@ -24,6 +25,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path={"/"} element={ <Landing /> } />
+            <Route path={"/asal"} element={<Dashboard/>} />
 
             {/* Dynamic routes for each route */}
             {protectedRoutes.map(({ path, element }) => (
