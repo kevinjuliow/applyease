@@ -14,7 +14,7 @@ const Welcome = () => {
           minSize={0.5}
           maxSize={2}
           particleDensity={100}
-          className="h-96 absolute z-0 w-full"
+          className="h-96 absolute z-0 w-full "
           particleColor="#a855f7"
         />
 
