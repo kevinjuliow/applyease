@@ -9,6 +9,7 @@ import CompanyRegister from './assets/pages/authentication/register/CompanyRegis
 import ApplicantRegister from './assets/pages/authentication/register/ApplicantRegister'
 import AuthenticatedMiddleware from './assets/lib/AuthenticatedMiddleware'
 import Dashboard from './assets/pages/dashboard/Dashboard'
+import DashboardContent from './assets/pages/dashboard/content/DashboardContent'
 
 function App() {
   const protectedRoutes = [
@@ -25,7 +26,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path={"/"} element={ <Landing /> } />
-            <Route path={"/asal"} element={<Dashboard/>} />
+            <Route path={"/dashboard/*"} element={<Dashboard/>} >
+              <Route path={""} element={<DashboardContent/>}/>
+            
+            </Route>
 
             {/* Dynamic routes for each route */}
             {protectedRoutes.map(({ path, element }) => (
