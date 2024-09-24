@@ -23,7 +23,9 @@ class CompanyController extends Controller
             'password' => 'required|confirmed',
             'address' => 'required',
             'country' => 'required',
-            'phone' => 'required',
+            'phone' => 'required', 
+            'website' => 'nullable' ,
+            'logo' => 'nullable'
         ]);
 
         if ($validRequest->fails()) {
@@ -51,6 +53,8 @@ class CompanyController extends Controller
         $company->address = $request->address ; 
         $company->country = $request->country ; 
         $company->phone = $request->phone ; 
+        $company->website = $request->website ; 
+        $company->logo = $request->logo ; 
 
         $company->save() ; 
 
