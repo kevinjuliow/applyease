@@ -26,10 +26,12 @@ function App() {
           <Navbar />
           <Routes>
             <Route path={"/"} element={ <Landing /> } />
+
             <Route path={"/dashboard/*"} element={<Dashboard/>} >
               <Route path={""} element={<DashboardContent/>}/>
             
             </Route>
+
 
             {/* Dynamic routes for each route */}
             {protectedRoutes.map(({ path, element }) => (
