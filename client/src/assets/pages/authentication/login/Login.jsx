@@ -25,7 +25,7 @@ const Login = () => {
     console.log('SUBMITTED')
     setLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_ROUTE}/api/users/login/applicant`, { // login for applicant only
+      const response = await axios.post(`${import.meta.env.VITE_API_ROUTE}/api/users/login/company`, { // login for applicant only
         email: values.email,
         password: values.password
       })
