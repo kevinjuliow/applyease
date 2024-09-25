@@ -87,8 +87,12 @@ class ApplicantController extends Controller
         $token = $applicant->createToken('authToken2')->plainTextToken;
 
         return response()->json([
-            'message' => 'Signed in',
-            'token' => $token
+            "message" => "logged in" , 
+            "data" => [
+                "status" => "applicant" , 
+                "id" => $applicant->id,
+                "token" => $token ,
+            ]
         ], 200);
     }
 

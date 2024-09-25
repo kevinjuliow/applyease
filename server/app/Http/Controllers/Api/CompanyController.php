@@ -93,8 +93,12 @@ class CompanyController extends Controller
         $token = $company->createToken('authToken')->plainTextToken;
 
         return response()->json([
-            'message' => 'User Created',
-            'token' => $token
+            "message" => "logged in" , 
+            "data" => [
+                "status" => "company" , 
+                "id" => $company->id,
+                "token" => $token ,
+            ]
         ], 200);
     }
     public function index()
