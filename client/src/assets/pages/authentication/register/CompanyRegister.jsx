@@ -44,7 +44,8 @@ const CompanyRegister = () => {
       if (response?.error) {
         throw new Error(response?.error);
       }
-      navigate('/dashboard')
+      
+      navigate('/ ')
 
     } catch (error) {
       setError(error);
