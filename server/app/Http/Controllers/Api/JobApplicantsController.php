@@ -60,21 +60,37 @@ class JobApplicantsController extends Controller
             ], 403);
         }
 
-        $companyJobs = Job::where('company_id' , $user->id)->get(); 
+        $companyJobs = Job::where('company_id', $user->id)->get();
 
         if ($companyJobs->isEmpty()) {
             return response()->json([
                 'messages' => "No Applicants Applied"
             ], 404);
         }
-   
-        
-        $jobs = job_applicants::whereIn('job_id' , $companyJobs->pluck("id"))->get() ; 
+
+
+        $jobs = job_applicants::whereIn('job_id', $companyJobs->pluck("id"))->get();
 
         return response()->json([
             'jobs' => $jobs
         ], 200);
+    }
+    public function applied(Request $request)
+    {
+        $user = $request->user();
+        
+        if (!$user->tokenCan('authToken2')) {
+            return response()->json([
+                'message' => 'this action is forbidden'
+            ], 403);
+        }
 
+        $applied=job_applicants::where('applicant_id',$user->id)->get();
+        
+        return response()->json([
+            'applied' => $applied
+        ], 200);
+        
 
     }
 }

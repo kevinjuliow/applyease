@@ -63,5 +63,5 @@ Route::delete("/applicants/{id}"  ,[ApplicantController::class , 'destroy'])->mi
  */
 Route::post('/apply/{id}' , [JobApplicantsController::class , 'apply'])->middleware("auth:sanctum"); 
 Route::get('/apply' , [JobApplicantsController::class , 'index'])->middleware("auth:sanctum"); 
-
+Route::get('/applied',[JobApplicantsController::class,'applied'])->middleware("auth:sanctum");
 
