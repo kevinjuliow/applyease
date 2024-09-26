@@ -8,7 +8,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate() ;
   /**Login Applicants*/
-  const loginApplicants = async (email, password) => {
+  const loginApplicant = async (email, password) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/api/users/login/applicant`,
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
   };
 
   /**Register Applicants */
-  const registerApplicants = async (
+  const registerApplicant = async (
     full_name,
     email,
     password,
@@ -110,8 +110,8 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        loginApplicants,
-        registerApplicants,
+        loginApplicant,
+        registerApplicant,
         loginCompany,
         registerCompany,
       }}

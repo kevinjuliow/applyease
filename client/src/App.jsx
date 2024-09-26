@@ -13,11 +13,12 @@ import NotFoundPage from "./assets/pages/notfound/NotFoundPage";
 import CompanyRegister from "./assets/pages/authentication/register/CompanyRegister";
 import ApplicantRegister from "./assets/pages/authentication/register/ApplicantRegister";
 import AuthenticatedMiddleware from "./assets/lib/AuthenticatedMiddleware";
+import GuestMiddleware from "./assets/lib/GuestMiddleware";
 import Dashboard from "./assets/pages/dashboard/Dashboard";
 import DashboardContent from "./assets/pages/dashboard/content/DashboardContent";
 import MainProvider from "./context/MainProvider";
 function App() {
-  const protectedRoutes = [
+  const guestRoutes = [
     { path: "/register-role", element: <RegisterRole /> },
     { path: "/login", element: <Login /> },
     { path: "/register/company", element: <CompanyRegister /> },
@@ -28,31 +29,34 @@ function App() {
     <>
       <Router>
         <MainProvider>
-          <AuthenticatedMiddleware>
-            <Navbar />
-            <Routes>
-              <Route path={"/"} element={<Landing />} />
+          <Navbar />
+          <Routes>
+            <Route path={"/"} element={<Landing />} />
 
-              <Route path={"/dashboard/*"} element={<Dashboard />}>
-                <Route path={""} element={<DashboardContent />} />
-              </Route>
+            <Route
+              path={"/dashboard/*"}
+              element={
+                <AuthenticatedMiddleware>
+                  <Dashboard />
+                </AuthenticatedMiddleware>
+              }
+            >
+              <Route path={""} element={<DashboardContent />} />
+            </Route>
 
-              {/* Dynamic routes for each route */}
-              {protectedRoutes.map(({ path, element }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  element={
-                    <AuthenticatedMiddleware>{element}</AuthenticatedMiddleware>
-                  }
-                />
-              ))}
+            {/* Guest Routes */}
+            {guestRoutes.map(({ path, element }) => (
+              <Route
+                key={path}
+                path={path}
+                element={<GuestMiddleware>{element}</GuestMiddleware>}
+              />
+            ))}
 
-              {/* Not Found Page */}
-              <Route path="/notfound" element={<NotFoundPage />} />
-              <Route path="*" element={<Navigate to="/notfound" replace />} />
-            </Routes>
-          </AuthenticatedMiddleware>
+            {/* Not Found Page */}
+            <Route path="/notfound" element={<NotFoundPage />} />
+            <Route path="*" element={<Navigate to="/notfound" replace />} />
+          </Routes>
         </MainProvider>
       </Router>
     </>
