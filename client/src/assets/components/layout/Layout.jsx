@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex items-center justify-center relative max-w-screen-lg mx-auto">
+    <div className="flex items-center justify-center relative max-w-screen-lg mx-auto flex-col w-full">
       {children}
     </div>
   )

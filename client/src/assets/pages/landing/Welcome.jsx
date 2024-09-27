@@ -18,7 +18,7 @@ const Welcome = () => {
           particleColor="#a855f7"
         />
 
-      <img src={landingPageImage} alt="" className="w-96 mt-4 mb-16 z-[-99] jumping-animation" />
+      <img src={landingPageImage} alt="" className="w-96 mt-4 mb-16 z-[10] jumping-animation" />
     </div>
   )
 }
