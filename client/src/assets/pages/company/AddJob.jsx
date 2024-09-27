@@ -87,11 +87,7 @@ const AddJob = () => {
       setError(error);
       console.log({error})
     } finally {
-<<<<<<< HEAD
-      setLoading(false);
-=======
       setLoading(false); 
->>>>>>> 457b8357648e976fc1bbff411e05f3b284f32964
     }
   });
 
