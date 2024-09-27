@@ -395,7 +395,7 @@ const GlobeLanding = () => {
 
   return (
     <div className="w-full z-0 h-[100vh]">
-      <div className="max-w-7xl mx-auto w-full h-full md:h-[40rem] px-4 flex items-center">
+      <div className="max-w-7xl mx-auto w-full h-full md:h-[40rem] px-4 flex items-center flex-col md:flex-row">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
