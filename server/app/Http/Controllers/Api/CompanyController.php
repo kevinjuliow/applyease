@@ -24,6 +24,7 @@ class CompanyController extends Controller
             'address' => 'required',
             'country' => 'required',
             'phone' => 'required', 
+            'description'=>'nullable',
             'website' => 'nullable' ,
             'logo' => 'nullable'
         ]);
@@ -54,6 +55,7 @@ class CompanyController extends Controller
         $company->country = $request->country ; 
         $company->phone = $request->phone ; 
         $company->website = $request->website ; 
+        $company->description=$request->description;
         $company->logo = $request->logo ; 
 
         $company->save() ; 
@@ -162,6 +164,7 @@ class CompanyController extends Controller
             'phone' => 'nullable',
             'website' => 'nullable|string',
             'logo' => 'nullable|file',
+            'description'=>'nullable|string'
         ]);
     
         
@@ -178,12 +181,13 @@ class CompanyController extends Controller
                     'phone' => '[number]',
                     'website' => '[string]',
                     'logo' => '[file]',
+                    'description'=>'[string]'
                 ]
             ], 422);
         }
 
         $company->update($request->only([
-           'name', 'email', 'password', 'address', 'country', 'phone', 'website', 'logo'
+           'name', 'email', 'password', 'address', 'country', 'phone', 'website', 'logo','description'
         ]));
 
         return response()->json([

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("address"); 
             $table->string("country"); 
             $table->string("phone"); 
+            $table->string("description")->nullable();
             $table->string("website")->nullable(); 
             $table->string("logo")->nullable();  
             $table->timestamps();
