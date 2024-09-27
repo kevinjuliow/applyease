@@ -8,7 +8,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate() ;
   /**Login Applicants*/
-  const loginApplicant = async (email, password) => {
+  const loginApplicant = async (email, password, setError, setLoading) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/api/users/login/applicant`,
@@ -22,8 +22,10 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/dashboard')
     } catch (error) {
-      console.error("Login Error :", error);
-      return null;
+      console.error("Login Error :", {error});
+      setError(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -52,13 +54,13 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/login')
     } catch (error) {
-      console.error("Register Error :", error);
+      console.error("Register Error :", {error});
       setError(error);
     }
   };
 
   /**Login Company*/
-  const loginCompany = async (email, password, setError) => {
+  const loginCompany = async (email, password, setError, setLoading) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/api/users/login/company`,
@@ -72,8 +74,10 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/dashboard')
     } catch (error) {
-      console.error("Login Error :", error);
+      console.error("Login Error :", {error});
       setError(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -104,7 +108,7 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/login')
     } catch (error) {
-      console.error("Register Error :", error);
+      console.error("Register Error :", {error});
       setError(error);
     }
   };

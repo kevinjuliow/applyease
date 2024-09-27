@@ -178,8 +178,9 @@ class ApplicantController extends Controller
 
         $applicant->update($request->only([
             'full_name',
-            'email',
-            'password'
+            'birth_date',
+            'address',
+            'phone'
         ]));
 
         return response()->json([
