@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Applicant;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ApplicantController extends Controller
@@ -87,11 +90,11 @@ class ApplicantController extends Controller
         $token = $applicant->createToken('authToken2')->plainTextToken;
 
         return response()->json([
-            "message" => "logged in" , 
+            "message" => "logged in",
             "data" => [
-                "status" => "applicant" , 
+                "status" => "applicant",
                 "id" => $applicant->id,
-                "token" => $token ,
+                "token" => $token,
             ]
         ], 200);
     }
@@ -208,5 +211,64 @@ class ApplicantController extends Controller
                 'message' => 'User Deleted'
             ], 200);
         }
+    }
+
+    public function upload(Request $request, string $id)
+    {
+        $user = $request->user();
+        $applicant = Applicant::find($id);
+
+        if ($applicant->id != $user->id || !$user->tokenCan('authToken2')) {
+            return response()->json([
+                'user' => $user->id,
+                'applicants' => $applicant->id,
+                'message' => 'This act is forbidden'
+            ], 403);
+        } else {
+            try {
+                $request->validate([
+                    'file' => 'required|file|mimes:pdf|max:51200',
+                ]);
+                $userName = $user->full_name;
+
+                $sanitizedUserName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $userName);
+                $filename = "{$sanitizedUserName}_" . time() . ".pdf";
+
+                $path = $request->file('file')->storeAs('cvs', $filename, 'public');
+
+                $applicant = Applicant::where('id', $user->id)->first();
+                if ($applicant) {
+                    $applicant->cv = $filename; // Set the filename
+                    $applicant->save(); // Save the changes
+                }
+                return response()->json([
+                    'message' => 'CV uploaded successfully',
+                    'path' => $path,
+                ], 200);
+            } catch (ValidationException $e) {
+                return response()->json([
+                    'message' => 'Upload failed. Only PDF files under 10MB are allowed.',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+        }
+    }
+    public function download(Request $request, string $id)
+    {
+        $applicant = Applicant::find($id);
+        $fileName = $applicant->cv;
+
+        if (!$fileName) {
+            return response()->json([
+                'message' => 'User has not uploaded a CV'
+            ], 400);
+        } else if (!Storage::disk('public')->exists("cvs/{$fileName}")) {
+            return response()->json([
+                'message' => 'File not found.'
+            ], 404);
+        }
+        
+        $filePath = storage_path("app/public/cvs/{$fileName}");
+        return response()->download($filePath);
     }
 }

@@ -4,10 +4,13 @@ import { createContext } from "react";
 
 export const JobContext = createContext();
 
-const indexJob = async () => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_ROUTE}/api/jobs`
-  );
+const indexJob = async (token) => {
+  const response = await axios.get(`${import.meta.env.VITE_API_ROUTE}/api/jobs`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   const data = response.data;
   return data[0].data;
 };

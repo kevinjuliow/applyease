@@ -12,11 +12,20 @@ class JobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
         $jobs = Job::paginate(10);
 
+        // if ($user->tokenCan('authToken')) {
+        //     $jobs = $user->jobs;
+        //     $mes = "company";
+        // } else {
+        //     $mes = "applicant";
+        // }
         return response()->json([
+            $request->user()->tokenCan('authToken'),
+            $request->user(),
             $jobs
         ], 200);
     }
@@ -74,17 +83,16 @@ class JobController extends Controller
     public function show(string $id)
     {
         $job = Job::find($id);
-        
+
         if (!$job) {
             return response()->json([
                 'message' => 'Job not found'
-            ] , 404);
+            ], 404);
         };
 
         return response()->json([
             $job
-        ] , 200);
-
+        ], 200);
     }
 
     /**
@@ -94,14 +102,14 @@ class JobController extends Controller
     {
         $user = $request->user();
         $job = Job::find($id);
-        
-        if(!$job) { 
+
+        if (!$job) {
             return response()->json([
                 'message' => 'Job not found'
-            ] , 404);
+            ], 404);
         }
 
-        if (!$user->tokenCan('authToken') || $id != $user->id ) {
+        if (!$user->tokenCan('authToken') || $id != $user->id) {
             return response()->json([
                 'message' => 'this action is forbidden'
             ], 403);
@@ -128,24 +136,27 @@ class JobController extends Controller
         }
 
         $job->update($request->only([
-            'description' , 'position' , 'salary' , 'job_type'
-         ]));
- 
-         return response()->json([
-             'message' => 'Job updated successfully',
-             'company' => $job
-         ], 200);
+            'description',
+            'position',
+            'salary',
+            'job_type'
+        ]));
+
+        return response()->json([
+            'message' => 'Job updated successfully',
+            'company' => $job
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request , string $id)
+    public function destroy(Request $request, string $id)
     {
         $user = $request->user();
         $job = Job::find($id);
-        
-        if (!$user->tokenCan('authToken') || $id != $user->id ) {
+
+        if (!$user->tokenCan('authToken') || $id != $user->id) {
             return response()->json([
                 'message' => 'this action is forbidden'
             ], 403);
@@ -155,9 +166,8 @@ class JobController extends Controller
         $job->delete();
 
         return response()->json([
-            'message' => 'Job deleted' , 
+            'message' => 'Job deleted',
             'company' => $job
         ], 200);
-        
     }
 }

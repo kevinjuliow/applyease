@@ -13,7 +13,7 @@ class Company extends Model
     use HasApiTokens , HasFactory;
     protected $table = 'companies'; 
     protected $fillable = ['id' , 'name' , 'email' , 'password' , 'address' , 'country' , 
-    'phone' , 'website' , 'logo'
+    'phone' , 'website' , 'logo','description'
     ];
 
     public function jobs() { 
