@@ -12,13 +12,13 @@ const DashboardContent = () => {
   const { showCompany } = useContext(CompanyContext);
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(""); 
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const fetchedJobs = await indexJob();
-        
+
         // Fetch company names and map to jobs
         const jobsWithCompany = await Promise.all(
           fetchedJobs.map(async (job) => {
@@ -43,18 +43,19 @@ const DashboardContent = () => {
     fetchJobs();
   }, [indexJob, showCompany]);
 
-  const filteredJobs = jobs.filter((job) =>
-    job.position.toLowerCase().includes(query.toLowerCase())
+  const filteredJobs = jobs.filter((job) => 
+    job.position.toLowerCase().includes(query.toLowerCase()) ||
+    job.companyName.toLowerCase().includes(query.toLowerCase())
   );
 
   const skeletonJobs = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="h-full w-full">
+    <div className="h-screen w-full overflow-y-scroll">
       <div>
-        {/* Search Bar */}
+        {/* Single Search Bar */}
         <div className="flex gap-2">
-          <SearchBar query={query} setQuery={setQuery} />
+          <SearchBar query={query} setQuery={setQuery} placeholder="Search jobs or companies" />
         </div>
 
         {isLoading ? (

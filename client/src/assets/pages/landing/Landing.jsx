@@ -3,6 +3,7 @@ import About from "./About";
 import GlobeLanding from "./GlobeLanding";
 import Welcome from "./Welcome";
 import { TracingBeam } from "../../components/ui/Tracing-beam";
+import { GridLanding } from "./GridLanding";
 
 const Landing = () => {
   return (
@@ -11,6 +12,7 @@ const Landing = () => {
         <div className="flex items-center justify-center relative max-w-screen-lg mx-auto flex-col w-full">
           <Welcome />
           <GlobeLanding />
+          <GridLanding/>
           <About />
         </div>
       </TracingBeam>

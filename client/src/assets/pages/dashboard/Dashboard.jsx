@@ -39,15 +39,14 @@ const Dashboard = () => {
     <Layout>
       <div
         className={cn(
-          "rounded-md flex flex-col md:flex-row bg-gray-100 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 overflow-hidden",
-          "h-[90vh] mt-20"
+          "rounded-md flex flex-col md:flex-row bg-gray-100 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 overflow-hidden overflow-y-hidden mt-20"
         )}
       >
         <Sidebar open={open} setOpen={setOpen} animate={true}>
-          <SidebarBody className="justify-between gap-10 h-full">
+          <SidebarBody className="justify-between gap-10 ">
             {" "}
             {/* Full height for the Sidebar */}
-            <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            <div className="flex flex-col flex- overflow-x-hidden overflow-y-hidden">
               <div className="mt-8 flex flex-col gap-2">
                 {links.map((link, idx) => (
                   <SidebarLink key={idx} link={link} />
@@ -59,7 +58,7 @@ const Dashboard = () => {
 
         {/* Fix height for Dashboard2 */}
         <div className="flex flex-1 h-full">
-          <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 bg-white flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
+          <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 bg-white flex flex-col gap-2 flex-1 w-full h-[90vh]">
             <Outlet />
           </div>
         </div>
