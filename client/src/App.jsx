@@ -17,12 +17,9 @@ import GuestMiddleware from "./assets/lib/GuestMiddleware";
 import Dashboard from "./assets/pages/dashboard/Dashboard";
 import DashboardContent from "./assets/pages/dashboard/content/DashboardContent";
 import MainProvider from "./context/MainProvider";
-<<<<<<< HEAD
-import MyApplications from "./assets/pages/dashboard/content/MyApplications";
-=======
 import Profile from "./assets/pages/user/profile/Profile";
 import AddJob from "./assets/pages/company/AddJob";
->>>>>>> 6759c40556ee2b697bd06ffb6b2bd69e5cbf6114
+import MyApplications from "./assets/pages/dashboard/content/MyApplications";
 function App() {
   const guestRoutes = [
     { path: "/register-role", element: <RegisterRole /> },
