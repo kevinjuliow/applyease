@@ -3,7 +3,6 @@ import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/Sidebar";
 import {
   IconArrowLeft,
   IconBrandTabler,
-  IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
 import Layout from "../../components/layout/Layout";
@@ -30,17 +29,10 @@ const Dashboard = () => {
       ),
     },
     {
-      label: "Settings",
-      href: "/settings", // Update with your actual path
-      icon: <IconSettings className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
-    },
-    {
-      label: "Logout",
-      href: "/logout", // Update with your actual path
-      icon: (
-        <IconArrowLeft className="text-neutral-700   h-5 w-5 flex-shrink-0" />
-      ),
-    },
+      label: "My Applications",
+      href: "/dashboard/applications", // Update with your actual path
+      icon: <IconArrowLeft className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+    }
   ];
 
   return (
