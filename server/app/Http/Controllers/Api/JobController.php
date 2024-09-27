@@ -37,7 +37,7 @@ class JobController extends Controller
         $validRequest = Validator::make($request->all(), [
             'description' => 'required|string',
             'position' => 'required|string',
-            'salary' => 'nullable|double',
+            'salary' => 'required|numeric',
             'job_type' => 'required|string',
         ]);
 
