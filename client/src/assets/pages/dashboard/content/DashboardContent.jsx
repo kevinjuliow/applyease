@@ -51,7 +51,9 @@ const DashboardContent = () => {
   const skeletonJobs = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="h-screen w-full overflow-y-scroll">
+    <div className="h-screen w-full overflow-y-scroll relative">
+      <div>
+      </div>
       <div>
         {/* Single Search Bar */}
         <div className="flex gap-2">
