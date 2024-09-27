@@ -19,12 +19,13 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  const {loginCompany } = useContext(AuthContext)
+  const { loginCompany, loginApplicant } = useContext(AuthContext)
 
   const handleForm = handleSubmit(async (values) => {
     console.log('SUBMITTED')
     setLoading(true);
-    await loginCompany(values.email , values.password , setError)
+    await loginApplicant(values.email, values.password, setError)
+    await loginCompany(values.email, values.password, setError)
     error != null &&  setLoading(false)
   });
 
