@@ -29,7 +29,6 @@ class JobController extends Controller
             $jobs
         ], 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */

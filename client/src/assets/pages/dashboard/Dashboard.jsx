@@ -4,13 +4,16 @@ import {
   IconArrowLeft,
   IconBrandTabler,
   IconUserBolt,
+  IconPlus
 } from "@tabler/icons-react";
 import Layout from "../../components/layout/Layout";
 import { cn } from "../../lib/utils/Utils";
 import { Outlet } from "react-router-dom";
+// import { label } from "framer-motion/client";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'))
 
   // Sidebar links with your paths
   const links = [
@@ -32,6 +35,11 @@ const Dashboard = () => {
       label: "My Applications",
       href: "/dashboard/applications", // Update with your actual path
       icon: <IconArrowLeft className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+    },
+    user.status === "company" && { 
+      label : "Add New Jobs" , 
+      href : "/dashboard/add/job" , 
+      icon : <IconPlus className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
     }
   ];
 
