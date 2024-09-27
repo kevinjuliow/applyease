@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../context/api/AuthProvider';
 
 const YupSigninSchema = yup.object().shape({
   fullname: yup.string().required("Full name is required"),
@@ -27,32 +26,14 @@ const CompanyRegister = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const navigate = useNavigate();
+
+  const { registerApplicant } = useContext(AuthContext)
 
   const handleForm = handleSubmit(async (values) => {
     console.log('SUBMITTED')
     setLoading(true);
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_ROUTE}/api/users/register/applicant`, {
-        full_name: values.fullname, 
-        email: values.email,
-        password: values.password,
-        password_confirmation: values.passwordConfirmation, 
-        birth_date: values.birthdate,
-        phone: values.phone,
-      })
-
-      console.log(response.data);
-      if (response?.error) {
-        throw new Error(response?.error);
-      }
-      navigate('/dashboard')
-
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false); 
-    }
+    await registerApplicant(values.fullname, values.email, values.password, values.passwordConfirmation, values.birthdate, values.phone, setError)
+    error != null && setLoading(false)
   });
 
   return (

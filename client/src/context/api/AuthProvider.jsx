@@ -34,7 +34,8 @@ const AuthProvider = ({ children }) => {
     password,
     password_confirmation,
     birth_date,
-    phone
+    phone,
+    setError
   ) => {
     try {
       await axios.post(
@@ -51,13 +52,13 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/login')
     } catch (error) {
-      console.error("Login Error :", error);
-      return null;
+      console.error("Register Error :", error);
+      setError(error);
     }
   };
 
   /**Login Company*/
-  const loginCompany = async (email, password , setError) => {
+  const loginCompany = async (email, password, setError) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_ROUTE}/api/users/login/company`,
@@ -84,7 +85,8 @@ const AuthProvider = ({ children }) => {
     password_confirmation,
     address,
     country,
-    phone
+    phone,
+    setError
   ) => {
     try {
       await axios.post(
@@ -102,8 +104,8 @@ const AuthProvider = ({ children }) => {
       console.log("Submit");
       navigate('/login')
     } catch (error) {
-      console.error("Login Error :", error);
-      return error;
+      console.error("Register Error :", error);
+      setError(error);
     }
   };
 
