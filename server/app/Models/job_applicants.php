@@ -9,5 +9,5 @@ class job_applicants extends Model
 {
     use HasFactory;
     protected $table = "job_applicants";
-    protected $fillable = ['id' , 'applicant_id' , 'job_id' ];
+    protected $fillable = ['id' , 'applicant_id' , 'job_id'  , 'status'];
 }
