@@ -66,4 +66,4 @@ Route::get('/download/{id}', [ApplicantController::class, 'download'])->middlewa
 Route::post('/apply/{id}', [JobApplicantsController::class, 'apply'])->middleware("auth:sanctum");
 Route::get('/apply', [JobApplicantsController::class, 'index'])->middleware("auth:sanctum");
 Route::get('/applied', [JobApplicantsController::class, 'applied'])->middleware("auth:sanctum");
-Route::put("/changeStatus/{id}",[JobApplicantsController::class,'changeStatus'])->middleware("auth:sanctum");
+Route::put("/changeStatus/{id}", [JobApplicantsController::class,'changeStatus'])->middleware("auth:sanctum");
