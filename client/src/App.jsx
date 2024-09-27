@@ -17,6 +17,7 @@ import GuestMiddleware from "./assets/lib/GuestMiddleware";
 import Dashboard from "./assets/pages/dashboard/Dashboard";
 import DashboardContent from "./assets/pages/dashboard/content/DashboardContent";
 import MainProvider from "./context/MainProvider";
+import MyApplications from "./assets/pages/dashboard/content/MyApplications";
 function App() {
   const guestRoutes = [
     { path: "/register-role", element: <RegisterRole /> },
@@ -42,6 +43,7 @@ function App() {
               }
             >
               <Route path={""} element={<DashboardContent />} />
+              <Route path={"applications"} element={<MyApplications/>} />
             </Route>
 
             {/* Guest Routes */}

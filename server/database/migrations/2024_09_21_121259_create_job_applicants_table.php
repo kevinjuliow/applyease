@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('job_applicants', function (Blueprint $table) {
             $table->id();
+            $table->string("status")->default("Pending");
             $table->foreignId('applicant_id')->references('id')->on('applicants')->onDelete('cascade');
             $table->foreignId('job_id')->references('id')->on('jobs')->onDelete('cascade');
             $table->timestamps();
