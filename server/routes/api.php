@@ -43,7 +43,7 @@ Route::get("/companies/postedjobs/{id}", [CompanyController::class, 'postedJobs'
 /**
  * Job Routes
  */
-Route::get("/jobs", [JobController::class, 'index'])->middleware("auth:sanctum");
+Route::get("/jobs", [JobController::class, 'index']);
 Route::get("/jobs/{id}", [JobController::class, 'show']);
 Route::post("/jobs", [JobController::class, 'store'])->middleware("auth:sanctum");
 Route::put("/jobs/{id}", [JobController::class, 'update'])->middleware("auth:sanctum");
