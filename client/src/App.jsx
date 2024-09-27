@@ -21,6 +21,7 @@ import Profile from "./assets/pages/user/profile/Profile";
 import AddJob from "./assets/pages/company/AddJob";
 import MyApplications from "./assets/pages/dashboard/content/MyApplications";
 import JobDetail from "./assets/pages/dashboard/content/JobDetail"
+import AppliedApplicants from "./assets/pages/company/AppliedApplicants";
 function App() {
   const guestRoutes = [
     { path: "/register-role", element: <RegisterRole /> },
@@ -49,6 +50,7 @@ function App() {
               <Route path={"applications"} element={<MyApplications/>} />
               <Route path={"profile"} element={<Profile />} />
               <Route path={"add/job"} element={<AddJob />} />
+              <Route path={"appliedApplicants"} element={<AppliedApplicants />} />
               <Route path={"jobs/:id"} element={<JobDetail />} />
             </Route>
 

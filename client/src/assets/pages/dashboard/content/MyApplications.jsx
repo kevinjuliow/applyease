@@ -83,7 +83,7 @@ const MyApplications = () => {
                 )}
               </div>
               <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white pr-20">
-                {appliedJob[index].status || "Status"}
+                {appliedJob[index].status }
               </div>
             </div>
           </li>

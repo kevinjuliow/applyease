@@ -19,29 +19,25 @@ const Dashboard = () => {
   const links = [
     {
       label: "Dashboard",
-      href: "/dashboard", // Update with your actual path
-      icon: (
-        <IconBrandTabler className="text-neutral-700  h-5 w-5 flex-shrink-0" />
-      ),
+      href: "/dashboard",
+      icon: <IconBrandTabler className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Profile",
-      href: "/dashboard/profile", // Update with your actual path
-      icon: (
-        <IconUserBolt className="text-neutral-700  h-5 w-5 flex-shrink-0" />
-      ),
+      href: "/dashboard/profile",
+      icon: <IconUserBolt className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
     },
-    {
+    user.status === "applicant" && {
       label: "My Applications",
-      href: "/dashboard/applications", // Update with your actual path
+      href: "/dashboard/applications",
       icon: <IconArrowLeft className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
     },
-    user.status === "company" && { 
-      label : "Add New Jobs" , 
-      href : "/dashboard/add/job" , 
-      icon : <IconPlus className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
-    }
-  ];
+    user.status === "company" && {
+      label: "Add New Jobs",
+      href: "/dashboard/add/job",
+      icon: <IconPlus className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+    },
+  ]; 
 
   return (
     <Layout>
