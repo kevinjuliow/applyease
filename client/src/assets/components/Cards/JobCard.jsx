@@ -12,7 +12,7 @@ const truncateText = (text, wordLimit) => {
 
 const JobCard = ({ job, companyName }) => {
   return (
-    <div className="w-full max-w-xs min-w-xl rounded overflow-hidden shadow-lg mx-auto">
+    <div className="w-full max-w-xs min-w-xl rounded overflow-hidden shadow-lg mx-auto h-[500px]">
       <img src={CompanyPict} alt="Company" className="w-full h-48 object-cover" />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{job.position}</div>
