@@ -94,11 +94,14 @@ class JobApplicantsController extends Controller
         ], 200);
     }
 
-    public function changeStatus(Request $request, string $jobid)
+    public function changeStatus(Request $request, string $aplicationId)
     {
 
-        $job = Job::find($jobid);
-        $company = Company::find($job->companu_id);
+
+        $aplication = job_applicants::find($aplicationId);
+        $job = Job::find($aplication->job_id);
+        $company = Company::find($job->company_id);
+
         $user = $request->user();
 
         if (!$job) {
@@ -111,5 +114,10 @@ class JobApplicantsController extends Controller
                 'message' => 'this action is forbidden'
             ], 403);
         }
+        $aplication->status = "Accepted";
+        return response()->json([
+            'aplication'=>$aplication,
+            'message'=>"succesfully changed"
+        ], 200);
     }
 }

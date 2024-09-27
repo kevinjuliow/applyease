@@ -25,7 +25,8 @@ class JobController extends Controller
         // }
         return response()->json([
             $request->user()->tokenCan('authToken'),
-            $request->user()
+            $request->user(),
+            $jobs
         ], 200);
     }
 
