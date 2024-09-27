@@ -20,6 +20,7 @@ const JobCard = ({ job, companyName }) => {
   };
 
   return (
+
     <div
       onClick={handleCardClick} 
       className="w-full max-w-xs min-w-xl rounded overflow-hidden shadow-lg mx-auto cursor-pointer hover:shadow-xl transition-shadow duration-300"
