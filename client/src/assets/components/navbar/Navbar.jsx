@@ -8,7 +8,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState({});
   const [user, setUser] = useState({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
