@@ -1,5 +1,5 @@
 import { SparklesCore } from '../../components/ui/sparkles'
-import landingPageImage from '../../images/undraw_Job_offers_re_634p.png'
+import { landingIcon } from '../../icons/svg/SvgIcon'
 
 const Welcome = () => {
   return (
@@ -17,8 +17,8 @@ const Welcome = () => {
           className="h-96 absolute z-0 w-[400px]"
           particleColor="#a855f7"
         />
-
-      <img src={landingPageImage} alt="" className="w-96 mt-4 mb-16 z-[10] jumping-animation" />
+    
+      <div className="mt-4 mb-16 z-[10] w-full jumping-animation flex items-center justify-center">{landingIcon}</div>
     </div>
   )
 }
