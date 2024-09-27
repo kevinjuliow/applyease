@@ -9,6 +9,7 @@ import resume1 from "../../images/resume1.png"
 import resume2 from "../../images/resume2.png"
 import resume3 from "../../images/resume3.jpeg"
 import resume4 from "../../images/resume4.jpeg"
+import resume5 from "../../images/dashboardScreen.png"
 
 
 export function GridLanding() {
@@ -114,11 +115,11 @@ export const SkeletonOne = () => {
         <div className="flex flex-1 w-full h-full flex-col space-y-2  ">
           {/* TODO */}
           <img
-            src="/linear.webp"
+            src={resume5}
             alt="header"
             width={800}
             height={800}
-            className="h-full w-full aspect-square object-cover object-left-top rounded-sm"
+            className="h-full w-full aspect-square object-contain object-left-top rounded-sm"
           />
         </div>
       </div>
