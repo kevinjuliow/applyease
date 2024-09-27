@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,  } from 'react-router-dom';
 
 const YupSigninSchema = yup.object().shape({
   fullname: yup.string().required("Full name is required"),
@@ -71,7 +71,7 @@ const Profile = () => {
 
   const handleForm = handleSubmit(async (values) => {
     console.log('SUBMITTED')
-    const user = localStorage.getItem('user')
+    const user = JSON.parse(localStorage.getItem('user'))
     setLoading(true);
     console.log(user)
     try {
@@ -90,6 +90,7 @@ const Profile = () => {
       if (response?.error) {
         throw new Error(response?.error);
       }
+      window.location.reload();
       navigate('/dashboard/profile')
 
     } catch (error) {
