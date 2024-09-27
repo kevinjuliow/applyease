@@ -13,11 +13,12 @@ const DashboardContent = () => {
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState("");
+  const user=JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const fetchedJobs = await indexJob();
+        const fetchedJobs = await indexJob(user.token);
         
         // Fetch company names and map to jobs
         const jobsWithCompany = await Promise.all(

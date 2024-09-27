@@ -75,22 +75,41 @@ class JobApplicantsController extends Controller
             'jobs' => $jobs
         ], 200);
     }
+
+
     public function applied(Request $request)
     {
         $user = $request->user();
-        
+
         if (!$user->tokenCan('authToken2')) {
             return response()->json([
                 'message' => 'this action is forbidden'
             ], 403);
         }
 
-        $applied=job_applicants::where('applicant_id',$user->id)->get();
-        
+        $applied = job_applicants::where('applicant_id', $user->id)->get();
+
         return response()->json([
             'applied' => $applied
         ], 200);
-        
+    }
 
+    public function changeStatus(Request $request, string $jobid)
+    {
+
+        $job = Job::find($jobid);
+        $company = Company::find($job->companu_id);
+        $user = $request->user();
+
+        if (!$job) {
+            return response()->json([
+                'message' => 'Company not found'
+            ], 404);
+        }
+        if ($company->id != $user->id || !$user->tokenCan('authToken')) {
+            return response()->json([
+                'message' => 'this action is forbidden'
+            ], 403);
+        }
     }
 }

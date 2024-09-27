@@ -36,13 +36,14 @@ Route::get("/companies", [CompanyController::class, 'index']);
 Route::get("/companies/{id}", [CompanyController::class, 'show']);
 Route::put("/companies/{id}", [CompanyController::class, 'update'])->middleware("auth:sanctum");
 Route::delete("/companies/{id}", [CompanyController::class, 'destroy'])->middleware("auth:sanctum");
+Route::get("/companies/postedjobs/{id}", [CompanyController::class, 'postedJobs'])->middleware("auth:sanctum");
 
 
 
 /**
  * Job Routes
  */
-Route::get("/jobs", [JobController::class, 'index']);
+Route::get("/jobs", [JobController::class, 'index'])->middleware("auth:sanctum");
 Route::get("/jobs/{id}", [JobController::class, 'show']);
 Route::post("/jobs", [JobController::class, 'store'])->middleware("auth:sanctum");
 Route::put("/jobs/{id}", [JobController::class, 'update'])->middleware("auth:sanctum");
