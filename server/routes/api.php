@@ -44,6 +44,7 @@ Route::get("/companies/postedjobs/{id}", [CompanyController::class, 'postedJobs'
  * Job Routes
  */
 Route::get("/jobs", [JobController::class, 'index']);
+Route::get("/myjobs", [JobController::class, 'myJobs'])->middleware("auth:sanctum");
 Route::get("/jobs/{id}", [JobController::class, 'show']);
 Route::post("/jobs", [JobController::class, 'store'])->middleware("auth:sanctum");
 Route::put("/jobs/{id}", [JobController::class, 'update'])->middleware("auth:sanctum");
@@ -59,6 +60,8 @@ Route::put("/applicants/{id}", [ApplicantController::class, 'update'])->middlewa
 Route::delete("/applicants/{id}", [ApplicantController::class, 'destroy'])->middleware("auth:sanctum");
 Route::post('/upload/{id}', [ApplicantController::class, 'upload'])->middleware("auth:sanctum");
 Route::get('/download/{id}', [ApplicantController::class, 'download'])->middleware("auth:sanctum");
+Route::get('/delete/{id}', [ApplicantController::class, 'delete'])->middleware("auth:sanctum");
+
 
 /**
  * Job Applicants Routes
@@ -66,4 +69,5 @@ Route::get('/download/{id}', [ApplicantController::class, 'download'])->middlewa
 Route::post('/apply/{id}', [JobApplicantsController::class, 'apply'])->middleware("auth:sanctum");
 Route::get('/apply', [JobApplicantsController::class, 'index'])->middleware("auth:sanctum");
 Route::get('/applied', [JobApplicantsController::class, 'applied'])->middleware("auth:sanctum");
-Route::put("/changeStatus/{id}",[JobApplicantsController::class,'changeStatus'])->middleware("auth:sanctum");
+Route::put("/changestatus/accept/{id}",[JobApplicantsController::class,'changeStatusAcc'])->middleware("auth:sanctum");
+Route::put("/changestatus/denied/{id}",[JobApplicantsController::class,'changeStatusDenied'])->middleware("auth:sanctum");

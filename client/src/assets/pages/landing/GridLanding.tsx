@@ -9,7 +9,7 @@ import resume1 from "../../images/resume1.png"
 import resume2 from "../../images/resume2.png"
 import resume3 from "../../images/resume3.jpeg"
 import resume4 from "../../images/resume4.jpeg"
-import resume5 from "../../images/dashboardScreen.png"
+import resume5 from "../../images/status.png"
 
 
 export function GridLanding() {

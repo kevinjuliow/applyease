@@ -8,40 +8,69 @@ import SkeletonCard from "../../../components/Cards/SkeletonCard";
 import PropTypes from "prop-types";
 
 const DashboardContent = () => {
-  const { indexJob } = useContext(JobContext);
+  const { indexJob  , myJob} = useContext(JobContext);
   const { showCompany } = useContext(CompanyContext);
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState(""); 
 
+  const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const fetchedJobs = await indexJob();
-
-        // Fetch company names and map to jobs
-        const jobsWithCompany = await Promise.all(
-          fetchedJobs.map(async (job) => {
-            try {
-              const company = await showCompany(job.company_id);
-              return { ...job, companyName: company.name };
-            } catch (error) {
-              console.error(`Error fetching company for job ${job.id}:`, error);
-              return { ...job, companyName: "Unknown" };
-            }
-          })
-        );
-
-        setJobs(jobsWithCompany);
-      } catch (error) {
-        console.error("Error fetching jobs:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, [indexJob, showCompany]);
+    setJobs([])
+    if (user.status === "applicant") { 
+      const fetchJobs = async () => {
+        try {
+          const fetchedJobs = await indexJob();
+  
+          const jobsWithCompany = await Promise.all(
+            fetchedJobs.map(async (job) => {
+              try {
+                const company = await showCompany(job.company_id);
+                return { ...job, companyName: company.name };
+              } catch (error) {
+                console.error(`Error fetching company for job ${job.id}:`, error);
+                return { ...job, companyName: "Unknown" };
+              }
+            })
+          );
+  
+          setJobs(jobsWithCompany);
+        } catch (error) {
+          console.error("Error fetching jobs:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      fetchJobs();
+    }else if (user.status === "company") {
+      const fetchJobs = async () => {
+        try {
+          const fetchedJobs = await myJob(user.token);
+  
+          const jobsWithCompany = await Promise.all(
+            fetchedJobs.map(async (job) => {
+              try {
+                const company = await showCompany(job.company_id);
+                return { ...job, companyName: company.name };
+              } catch (error) {
+                console.error(`Error fetching company for job ${job.id}:`, error);
+                return { ...job, companyName: "Unknown" };
+              }
+            })
+          );
+          setJobs(jobsWithCompany);
+        } catch (error) {
+          console.error("Error fetching jobs:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+  
+      fetchJobs();
+    }
+  
+  }, [indexJob, showCompany ]);
 
   const filteredJobs = jobs.filter((job) => 
     job.position.toLowerCase().includes(query.toLowerCase()) ||
@@ -69,7 +98,7 @@ const DashboardContent = () => {
         ) : (
           <motion.div
             layout 
-            className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center mt-16"
+            className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center mt-16 mx-4"
           >
             <AnimatePresence>
               {filteredJobs.length > 0 ? (

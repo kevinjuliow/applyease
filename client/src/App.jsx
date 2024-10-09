@@ -13,7 +13,7 @@ import NotFoundPage from "./assets/pages/notfound/NotFoundPage";
 import CompanyRegister from "./assets/pages/authentication/register/CompanyRegister";
 import ApplicantRegister from "./assets/pages/authentication/register/ApplicantRegister";
 import AuthenticatedMiddleware from "./assets/lib/AuthenticatedMiddleware";
-import GuestMiddleware from "./assets/lib/GuestMiddleware";
+import GuestMiddleware from "./assets/lib/Gues`tMiddleware";
 import Dashboard from "./assets/pages/dashboard/Dashboard";
 import DashboardContent from "./assets/pages/dashboard/content/DashboardContent";
 import MainProvider from "./context/MainProvider";

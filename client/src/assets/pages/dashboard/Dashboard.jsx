@@ -15,29 +15,38 @@ const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'))
 
-  // Sidebar links with your paths
+
   const links = [
     {
       label: "Dashboard",
       href: "/dashboard",
-      icon: <IconBrandTabler className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+      icon: (
+        <IconBrandTabler className="text-neutral-700  h-5 w-5 flex-shrink-0" />
+      ),
     },
     {
       label: "Profile",
       href: "/dashboard/profile",
-      icon: <IconUserBolt className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+      icon: (
+        <IconUserBolt className="text-neutral-700  h-5 w-5 flex-shrink-0" />
+      ),
     },
-    user.status === "applicant" && {
+    user.status !== "applicant" && {
+      label: "Applied Applicants",
+      href: "/dashboard/appliedapplicants",
+      icon: <IconArrowLeft className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+    },
+    user.status !== "company" && {
       label: "My Applications",
       href: "/dashboard/applications",
       icon: <IconArrowLeft className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
     },
-    user.status === "company" && {
-      label: "Add New Jobs",
-      href: "/dashboard/add/job",
-      icon: <IconPlus className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
-    },
-  ]; 
+    user.status === "company" && { 
+      label : "Add New Jobs" , 
+      href : "/dashboard/add/job" , 
+      icon : <IconPlus className="text-neutral-700 h-5 w-5 flex-shrink-0" />,
+    }
+  ];
 
   return (
     <Layout>

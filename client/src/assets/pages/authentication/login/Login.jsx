@@ -18,14 +18,17 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
+  const [isFinishFetch, setIsFinishFetch] = useState(true);
 
   const { loginCompany, loginApplicant } = useContext(AuthContext)
 
   const handleForm = handleSubmit(async (values) => {
+    setIsFinishFetch(false)
     console.log('SUBMITTED')
     setLoading(true);
     await loginApplicant(values.email, values.password, setError, setLoading)
     await loginCompany(values.email, values.password, setError, setLoading)
+    setIsFinishFetch(true)
   });
 
   return (
@@ -56,7 +59,7 @@ const Login = () => {
           <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-purple-600 peer-focus:dark:text-purple-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
           {errors?.password && <p className="text-[12px] mt-2 text-red-500">{errors.password?.message}</p>} 
         </div>
-        {error && <p className="text-[12px] mb-4 text-red-500">Invalid credentials, username or password might wrong. Try again</p>}
+        {error && <p className="text-[12px] mb-4 text-red-500">{isFinishFetch && 'Invalid credentials, username or password might wrong. Try again'}</p>}
         <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
           {
             loading ? 

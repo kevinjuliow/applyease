@@ -18,6 +18,7 @@ const showApplicant = async (id) => {
     `${import.meta.env.VITE_API_ROUTE}/api/applicants/${id}`
   );
   const data = response.data;
+  console.log(data);
   return data[0]
 };
 

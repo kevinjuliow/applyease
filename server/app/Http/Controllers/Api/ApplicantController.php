@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ApplicantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
 
     public function register(Request $request)
     {
@@ -108,9 +106,6 @@ class ApplicantController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $applicants = Applicant::find($id);
@@ -129,9 +124,7 @@ class ApplicantController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $applicant = Applicant::find($id);
@@ -188,9 +181,6 @@ class ApplicantController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, string $id)
     {
         $applicant = Applicant::find($id);
@@ -217,42 +207,54 @@ class ApplicantController extends Controller
     {
         $user = $request->user();
         $applicant = Applicant::find($id);
-
+    
         if ($applicant->id != $user->id || !$user->tokenCan('authToken2')) {
             return response()->json([
                 'user' => $user->id,
                 'applicants' => $applicant->id,
-                'message' => 'This act is forbidden'
+                'message' => 'This action is forbidden'
             ], 403);
         } else {
             try {
                 $request->validate([
-                    'file' => 'required|file|mimes:pdf|max:51200',
+                    'file' => 'required|file|mimes:pdf|max:51200', // 50MB
                 ]);
                 $userName = $user->full_name;
-
+    
                 $sanitizedUserName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $userName);
                 $filename = "{$sanitizedUserName}_" . time() . ".pdf";
-
+                
+                if ($applicant->cv) {
+                    $oldFilePath = "cvs/{$applicant->cv}";
+                    if (Storage::disk('public')->exists($oldFilePath)) {
+                        Storage::disk('public')->delete($oldFilePath);
+                    }
+                };
+    
                 $path = $request->file('file')->storeAs('cvs', $filename, 'public');
-
-                $applicant = Applicant::where('id', $user->id)->first();
-                if ($applicant) {
-                    $applicant->cv = $filename; // Set the filename
-                    $applicant->save(); // Save the changes
-                }
+    
+                $applicant->cv = $filename; 
+                $applicant->save(); 
+    
                 return response()->json([
                     'message' => 'CV uploaded successfully',
-                    'path' => $path,
+                    'path' => asset("storage/{$path}"), // Ensure the path is publicly accessible
                 ], 200);
             } catch (ValidationException $e) {
                 return response()->json([
-                    'message' => 'Upload failed. Only PDF files under 10MB are allowed.',
+                    'message' => 'Upload failed. Only PDF files under 50MB are allowed.', // Updated message
                     'errors' => $e->errors(),
                 ], 422);
+            } catch (\Exception $e) {
+                // Handle other potential exceptions
+                return response()->json([
+                    'message' => 'An unexpected error occurred during upload.',
+                    'error' => $e->getMessage(),
+                ], 500);
             }
         }
     }
+    
     public function download(Request $request, string $id)
     {
         $applicant = Applicant::find($id);
@@ -270,5 +272,33 @@ class ApplicantController extends Controller
         
         $filePath = storage_path("app/public/cvs/{$fileName}");
         return response()->download($filePath);
+    }
+    public function delete(Request $request, string $id)
+    {
+        $user = $request->user();
+        $applicant = Applicant::find($id);
+
+        if ($applicant->id != $user->id || !$user->tokenCan('authToken2')) {
+            return response()->json([
+                'user' => $user->id,
+                'applicants' => $applicant->id,
+                'message' => 'This act is forbidden'
+            ], 403);
+        } else {
+            $fileName = $applicant->cv;
+
+            if (!$fileName) {
+                return response()->json([
+                    'message' => 'User has not uploaded a CV'
+                ], 400);
+            }
+            $FilePath = "cvs/{$applicant->cv}";
+            if (Storage::disk('public')->exists($FilePath)) {
+                Storage::disk('public')->delete($FilePath);
+                return response()->json([
+                    'message' => 'User\'s CV has been successfully deleted'
+                ], 200);
+            }
+        }
     }
 }

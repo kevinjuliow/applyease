@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
     public function register(Request $request)
     {
@@ -113,12 +110,7 @@ class CompanyController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(string $id)
     {
         $company = Company::find($id);
@@ -136,9 +128,7 @@ class CompanyController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+  
     public function update(Request $request, string $id)
     {
         $company = Company::find($id);
@@ -204,9 +194,7 @@ class CompanyController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Request $request, string $id)
     {
         $company = Company::find($id);

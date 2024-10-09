@@ -77,7 +77,7 @@ class JobApplicantsController extends Controller
     }
 
 
-    public function applied(Request $request)
+     public function applied(Request $request)
     {
         $user = $request->user();
 
@@ -94,12 +94,10 @@ class JobApplicantsController extends Controller
         ], 200);
     }
 
-    public function changeStatus(Request $request, string $aplicationId)
+    public function changeStatusAcc(Request $request, string $id)
     {
-
-
-        $aplication = job_applicants::find($aplicationId);
-        $job = Job::find($aplication->job_id);
+        $application = job_applicants::find($id);
+        $job = Job::find($application->job_id);
         $company = Company::find($job->company_id);
 
         $user = $request->user();
@@ -114,9 +112,43 @@ class JobApplicantsController extends Controller
                 'message' => 'this action is forbidden'
             ], 403);
         }
-        $aplication->status = "Accepted";
+        
+        $application->status = "Accepted";
+        $application->save();
+
+
         return response()->json([
-            'aplication'=>$aplication,
+            'aplication'=>$application,
+            'message'=>"succesfully changed"
+        ], 200);
+    }
+    public function changeStatusDenied(Request $request, string $id)
+    {
+
+
+        $application = job_applicants::find($id);
+        $job = Job::find($application->job_id);
+        $company = Company::find($job->company_id);
+
+        $user = $request->user();
+
+        if (!$job) {
+            return response()->json([
+                'message' => 'Company not found'
+            ], 404);
+        }
+        if ($company->id != $user->id || !$user->tokenCan('authToken')) {
+            return response()->json([
+                'message' => 'this action is forbidden'
+            ], 403);
+        }
+        
+        $application->status = "Denied";
+        $application->save();
+
+
+        return response()->json([
+            'aplication'=>$application,
             'message'=>"succesfully changed"
         ], 200);
     }

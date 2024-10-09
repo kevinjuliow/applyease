@@ -9,29 +9,36 @@ use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+ 
+    public function index()
     {
-        $user = $request->user();
-        $jobs = Job::paginate(10);
-
-        // if ($user->tokenCan('authToken')) {
-        //     $jobs = $user->jobs;
-        //     $mes = "company";
-        // } else {
-        //     $mes = "applicant";
-        // }
+        $jobs = Job::all();
         return response()->json([
-            $request->user()->tokenCan('authToken'),
-            $request->user(),
             $jobs
         ], 200);
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+ 
+    public function myJobs(Request $request) {
+        $user = $request->user();
+
+        if (!$user->tokenCan('authToken')) {
+            return response()->json([
+                'message' => 'this action is forbidden'
+            ], 403);
+        }
+        
+        $jobs = Job::where('company_id', $user->id)->paginate(10);
+
+        if ($jobs === null) { 
+            return response()->json([
+                'Message' => "No Jobs"
+            ], 404);
+        }
+        return response()->json([
+            $jobs
+        ], 200);
+
+    }
     public function store(Request $request)
     {
         $user = $request->user();
@@ -77,9 +84,7 @@ class JobController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(string $id)
     {
         $job = Job::find($id);
@@ -95,9 +100,7 @@ class JobController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+ 
     public function update(Request $request, string $id)
     {
         $user = $request->user();
@@ -148,9 +151,7 @@ class JobController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Request $request, string $id)
     {
         $user = $request->user();
