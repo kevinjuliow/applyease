@@ -69,5 +69,7 @@ Route::get('/delete/{id}', [ApplicantController::class, 'delete'])->middleware("
 Route::post('/apply/{id}', [JobApplicantsController::class, 'apply'])->middleware("auth:sanctum");
 Route::get('/apply', [JobApplicantsController::class, 'index'])->middleware("auth:sanctum");
 Route::get('/applied', [JobApplicantsController::class, 'applied'])->middleware("auth:sanctum");
+
 Route::put("/changestatus/accept/{id}",[JobApplicantsController::class,'changeStatusAcc'])->middleware("auth:sanctum");
 Route::put("/changestatus/denied/{id}",[JobApplicantsController::class,'changeStatusDenied'])->middleware("auth:sanctum");
+

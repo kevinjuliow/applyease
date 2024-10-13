@@ -96,6 +96,7 @@ class JobApplicantsController extends Controller
 
     public function changeStatusAcc(Request $request, string $id)
     {
+
         $application = job_applicants::find($id);
         $job = Job::find($application->job_id);
         $company = Company::find($job->company_id);
